@@ -8,6 +8,7 @@
     tools:context=".RxLifeActivity">
 
     <Button
+        android:id="@+id/observable"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="observable"
@@ -45,8 +46,8 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="leakcanary"
-        android:text="leakcanary"
+        android:onClick="leakCanary"
+        android:text="leakCanary"
         android:textAllCaps="false" />
 
 </LinearLayout>
