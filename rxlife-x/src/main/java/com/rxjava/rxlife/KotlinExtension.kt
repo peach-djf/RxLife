@@ -1,5 +1,6 @@
 package com.rxjava.rxlife
 
+import android.view.View
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import io.reactivex.*
@@ -26,6 +27,25 @@ fun <T> Single<T>.life(owner: LifecycleOwner): SingleLife<T> =
 
 fun <T> ParallelFlowable<T>.life(owner: LifecycleOwner): ParallelFlowableLife<T> =
     this.`as`(RxLife.`as`<T>(owner))
+
+fun <T> Observable<T>.life(view: View): ObservableLife<T> =
+    this.`as`(RxLife.`as`<T>(view))
+
+fun <T> Flowable<T>.life(view: View): FlowableLife<T> =
+    this.`as`(RxLife.`as`(view))
+
+fun <T> Maybe<T>.life(view: View): MaybeLife<T> =
+    this.`as`(RxLife.`as`<T>(view))
+
+fun Completable.life(view: View): CompletableLife =
+    this.`as`(RxLife.`as`<Any>(view))
+
+fun <T> Single<T>.life(view: View): SingleLife<T> =
+    this.`as`(RxLife.`as`<T>(view))
+
+fun <T> ParallelFlowable<T>.life(view: View): ParallelFlowableLife<T> =
+    this.`as`(RxLife.`as`<T>(view))
+
 
 
 fun <T> Observable<T>.life(owner: LifecycleOwner, event: Lifecycle.Event): ObservableLife<T> =
@@ -68,6 +88,24 @@ fun <T> Single<T>.lifeOnMain(owner: LifecycleOwner): SingleLife<T> =
 fun <T> ParallelFlowable<T>.lifeOnMain(owner: LifecycleOwner): ParallelFlowableLife<T> =
     this.`as`(RxLife.asOnMain<T>(owner))
 
+
+fun <T> Observable<T>.lifeOnMain(view: View): ObservableLife<T> =
+    this.`as`(RxLife.asOnMain<T>(view))
+
+fun <T> Flowable<T>.lifeOnMain(view: View): FlowableLife<T> =
+    this.`as`(RxLife.asOnMain(view))
+
+fun <T> Maybe<T>.lifeOnMain(view: View): MaybeLife<T> =
+    this.`as`(RxLife.asOnMain<T>(view))
+
+fun Completable.lifeOnMain(view: View): CompletableLife =
+    this.`as`(RxLife.asOnMain<Any>(view))
+
+fun <T> Single<T>.lifeOnMain(view: View): SingleLife<T> =
+    this.`as`(RxLife.asOnMain<T>(view))
+
+fun <T> ParallelFlowable<T>.lifeOnMain(view: View): ParallelFlowableLife<T> =
+    this.`as`(RxLife.asOnMain<T>(view))
 
 fun <T> Observable<T>.lifeOnMain(owner: LifecycleOwner, event: Lifecycle.Event): ObservableLife<T> =
     this.`as`(RxLife.asOnMain<T>(owner, event))
