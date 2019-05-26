@@ -10,20 +10,56 @@ Gradle引用方法
 
     dependencies {
        implementation 'com.rxjava.rxlife:rxlife:1.0.5'
+
+       //AndroidX
+       implementation 'com.rxjava.rxlife:rxlife-x:1.0.5'
     }
+
+在View的 onDetachedFromWindow方法 自动断开
+
+        //java
+        Observable.timer(5, TimeUnit.SECONDS)
+                .asOnMain(RxLife.as(this))  //此时的this 为View对象
+                .subscribe(aLong -> {
+                    Log.e("LJX", "accept =" + aLong);
+                });
+
+        //kotlin
+        Observable.timer(5, TimeUnit.SECONDS)
+                .lifeOnMain(this)  //此时的this 为View对象
+                .subscribe(aLong -> {
+                    Log.e("LJX", "accept =" + aLong);
+                });
+
 
 在Activity/Fragment 的 onDestroy 自动断开
 
+        //java
         Observable.timer(5, TimeUnit.SECONDS)
-                .as(RxLife.as(this))
+                .as(RxLife.as(this))     //此时的this Activity/Fragment对象
+                .subscribe(aLong -> {
+                    Log.e("LJX", "accept =" + aLong);
+                });
+
+        //kotlin
+        Observable.timer(5, TimeUnit.SECONDS)
+                .life(this)  //此时的this Activity/Fragment对象
                 .subscribe(aLong -> {
                     Log.e("LJX", "accept =" + aLong);
                 });
 
 Activity/Fragment 的 onStop 自动断开
 
+        //java
         Observable.timer(5, TimeUnit.SECONDS)
-                .as(RxLife.as(this, Event.ON_STOP))
+                .as(RxLife.as(this, Event.ON_STOP))   //此时的this Activity/Fragment对象
+                .subscribe(aLong -> {
+                    Log.e("LJX", "accept =" + aLong);
+                });
+
+        //kotlin
+        Observable.timer(5, TimeUnit.SECONDS)
+                .life(this, Event.ON_STOP)  //此时的this Activity/Fragment对象
                 .subscribe(aLong -> {
                     Log.e("LJX", "accept =" + aLong);
                 });
@@ -31,8 +67,16 @@ Activity/Fragment 的 onStop 自动断开
 
 在Activity/Fragment 的 onDestroy 自动断开，并中断上下游的引用，在主线程回调
 
+        //java
         Observable.timer(5, TimeUnit.SECONDS)
-                .as(RxLife.asOnMain(this))
+                .as(RxLife.asOnMain(this))  //此时的this Activity/Fragment对象
+                .subscribe(aLong -> {
+                    Log.e("LJX", "accept =" + aLong);
+                });
+
+        //kotlin
+        Observable.timer(5, TimeUnit.SECONDS)
+                .lifeOnMain(this)  //此时的this Activity/Fragment对象
                 .subscribe(aLong -> {
                     Log.e("LJX", "accept =" + aLong);
                 });
@@ -40,15 +84,23 @@ Activity/Fragment 的 onStop 自动断开
                 //等价于
         Observable.timer(5, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
-                .as(RxLife.as(this))
+                .as(RxLife.as(this))  //此时的this Activity/Fragment对象
                 .subscribe(aLong -> {
                     Log.e("LJX", "accept =" + aLong);
                 });
 
 Activity/Fragment 的 onStop 自动断开，并中断上下游的引用，在主线程回调
 
+        //java
         Observable.timer(5, TimeUnit.SECONDS)
-                .as(RxLife.asOnMain(this, Event.ON_STOP))
+                .as(RxLife.asOnMain(this, Event.ON_STOP))  //此时的this Activity/Fragment对象
+                .subscribe(aLong -> {
+                    Log.e("LJX", "accept =" + aLong);
+                });
+
+        //kotlin
+        Observable.timer(5, TimeUnit.SECONDS)
+                .lifeOnMain(this, Event.ON_STOP)  //此时的this Activity/Fragment对象
                 .subscribe(aLong -> {
                     Log.e("LJX", "accept =" + aLong);
                 });
@@ -56,7 +108,7 @@ Activity/Fragment 的 onStop 自动断开，并中断上下游的引用，在主
                 //等价于
         Observable.timer(5, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
-                .as(RxLife.as(this, Event.ON_STOP))
+                .as(RxLife.as(this, Event.ON_STOP))  //此时的this Activity/Fragment对象
                 .subscribe(aLong -> {
                     Log.e("LJX", "accept =" + aLong);
                 });
